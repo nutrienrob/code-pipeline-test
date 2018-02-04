@@ -22,8 +22,8 @@ EOF
 }
 
 resource "aws_iam_policy" "codebuild_policy" {
-  name = "codebuild-policy"
-  path = "/service-role/"
+  name        = "codebuild-policy"
+  path        = "/service-role/"
   description = "Policy used in trust relationship with CodeBuild"
 
   policy = <<POLICY
@@ -47,16 +47,16 @@ POLICY
 }
 
 resource "aws_iam_policy_attachment" "codebuild_policy_attachment" {
-  name = "codebuild-policy-attachment"
+  name       = "codebuild-policy-attachment"
   policy_arn = "${aws_iam_policy.codebuild_policy.arn}"
-  roles = ["${aws_iam_role.codebuild_role.id}"]
+  roles      = ["${aws_iam_role.codebuild_role.id}"]
 }
 
 resource "aws_codebuild_project" "code-build-test-project" {
-  name = "code-build-test-project"
-  description = "Learn how to use CodeBuild for java project (nutrienrob/code-pipeline-test)."
+  name          = "code-build-test-project"
+  description   = "Learn how to use CodeBuild for java project (nutrienrob/code-pipeline-test)."
   build_timeout = "5"
-  service_role = "${aws_iam_role.codebuild_role.arn}"
+  service_role  = "${aws_iam_role.codebuild_role.arn}"
 
   artifacts {
     type = "NO_ARTIFACTS"
@@ -64,14 +64,15 @@ resource "aws_codebuild_project" "code-build-test-project" {
 
   environment {
     compute_type = "BUILD_GENERAL1_SMALL"
-    image = "2"
-    type = "LINUX_CONTAINER"
+    image        = "2"
+    type         = "LINUX_CONTAINER"
   }
 
   source {
-    type = "GITHUB"
+    type     = "GITHUB"
     location = "https://github.com/nutrienrob/code-pipeline-test.git"
   }
+
   /*
   Was automatically created by Intellij's Terraform plugin when creating the
   new resource.
